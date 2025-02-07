@@ -1,0 +1,2 @@
+# coin-manager
+Coin manager
