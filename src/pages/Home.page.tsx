@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { IncomeCard } from "../components/income/IncomeCard";
 import { IncomeForm } from "../components/income/IncomeForm";
 import { TotalIncome } from "../components/income/TotalIncome";
-import { GRADIENTS } from "../constants";
+import { GLASS_EFFECT, GRADIENTS, SHADOWS } from "../constants";
 import { IncomeEntry, IncomeFormValues } from "../types";
 import {
   loadFromLocalStorage,
@@ -107,14 +107,23 @@ export function HomePage() {
   return (
     <Container size="sm" py="xl">
       <Paper
-        shadow="sm"
+        shadow="lg"
         p="xl"
-        mb="md"
-        radius="lg"
-        bg={`linear-gradient(${GRADIENTS.header.deg}deg, ${GRADIENTS.header.from}, ${GRADIENTS.header.to})`}
+        mb="xl"
+        radius="xl"
+        style={{
+          ...GLASS_EFFECT,
+          // background: `linear-gradient(${GRADIENTS.header.deg}deg, ${GRADIENTS.header.from}, ${GRADIENTS.header.to})`,
+        }}
       >
-        <Stack>
-          <Text size="xl" fw={700} ta="center" c="white">
+        <Stack gap="lg">
+          <Text
+            size="2rem"
+            fw={800}
+            ta="center"
+            c="white"
+            style={{ textShadow: "0 2px 4px rgba(0,0,0,0.2)" }}
+          >
             Учет доходов
           </Text>
 
@@ -125,10 +134,12 @@ export function HomePage() {
               setEditingEntry(null);
               setIsModalOpen(true);
             }}
-            variant="white"
-            radius="md"
-            size="md"
+            // variant="gradient"
+            // gradient={GRADIENTS.button}
+            radius="xl"
+            size="lg"
             fullWidth
+            style={{ boxShadow: SHADOWS.button }}
           >
             Добавить новый период
           </Button>
@@ -143,10 +154,38 @@ export function HomePage() {
           form.reset();
           setSelectedDates([]);
         }}
-        title={editingEntry ? "Редактировать период" : "Новый период"}
-        radius="md"
-        size="md"
+        title={
+          <Text
+            size="xl"
+            fw={700}
+            variant="gradient"
+            gradient={GRADIENTS.header}
+            mb="md"
+          >
+            {editingEntry ? "Редактировать период" : "Новый период"}
+          </Text>
+        }
+        radius="lg"
+        size="lg"
         centered
+        overlayProps={{
+          blur: 8,
+          opacity: 0.55,
+        }}
+        styles={{
+          body: {
+            background: `linear-gradient(${GRADIENTS.card.deg}deg, ${GRADIENTS.card.from}, ${GRADIENTS.card.to})`,
+            borderRadius: "0 0 1rem 1rem",
+          },
+          header: {
+            background: `linear-gradient(${GRADIENTS.card.deg}deg, ${GRADIENTS.card.from}, ${GRADIENTS.card.to})`,
+            borderRadius: "1rem 1rem 0 0",
+          },
+          content: {
+            ...GLASS_EFFECT,
+            borderRadius: "1rem",
+          },
+        }}
       >
         <IncomeForm
           form={form}
@@ -158,10 +197,24 @@ export function HomePage() {
       </Modal>
 
       {incomeEntries.length > 0 && (
-        <Paper shadow="sm" p="xl" radius="lg">
-          <Stack>
-            <Text size="lg" fw={700}>
-              История доходов:
+        <Paper
+          shadow="lg"
+          p="xl"
+          radius="xl"
+          style={{
+            ...GLASS_EFFECT,
+            // background: `linear-gradient(${GRADIENTS.card.deg}deg, ${GRADIENTS.card.from}, ${GRADIENTS.card.to})`,
+          }}
+        >
+          <Stack gap="lg">
+            <Text
+              size="xl"
+              fw={800}
+              variant="gradient"
+              gradient={GRADIENTS.header}
+              ta="center"
+            >
+              История доходов
             </Text>
             {incomeEntries.map((entry) => (
               <IncomeCard

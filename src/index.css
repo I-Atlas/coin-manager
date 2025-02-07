@@ -1,0 +1,11 @@
+:root[data-mantine-color-scheme="dark"] {
+  --mantine-color-body: var(--mantine-color-dark-9);
+}
+
+:root[data-mantine-color-scheme="light"] {
+  --mantine-color-body: var(--mantine-color-white);
+}
+
+body {
+  background-color: var(--mantine-color-body);
+}
