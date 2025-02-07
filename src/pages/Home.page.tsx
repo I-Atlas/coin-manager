@@ -1,77 +1,16 @@
-import {
-  ActionIcon,
-  Button,
-  Checkbox,
-  Container,
-  Group,
-  MantineGradient,
-  Modal,
-  NumberInput,
-  Paper,
-  Select,
-  Stack,
-  Text,
-  TextInput,
-} from "@mantine/core";
-import { DatePickerInput } from "@mantine/dates";
+import { Button, Container, Modal, Paper, Stack, Text } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { IconEdit, IconTrash } from "@tabler/icons-react";
-import dayjs from "dayjs";
 import { useEffect, useState } from "react";
-
-interface IncomeEntry {
-  id: string;
-  dates: Date[];
-  dailyAmount: number;
-  currency: string;
-  periodName: string;
-  isPaid: boolean;
-}
-
-const CURRENCIES = [
-  { value: "RUB", label: "₽ (RUB)" },
-  { value: "USD", label: "$ (USD)" },
-  { value: "EUR", label: "€ (EUR)" },
-];
-
-const CURRENCY_SYMBOLS: Record<string, string> = {
-  RUB: "₽",
-  USD: "$",
-  EUR: "€",
-};
-
-// Добавим константы для градиентов
-const GRADIENTS: Record<string, MantineGradient> = {
-  header: { from: "#7950f2", to: "#4c6ef5", deg: 45 },
-  income: { from: "#12b886", to: "#15aabf", deg: 45 },
-  paper: { from: "#e9ecef", to: "#f8f9fa", deg: 45 },
-};
-
-// Добавим вспомогательные функции для работы с localStorage
-const STORAGE_KEY = "incomeEntries";
-
-const saveToLocalStorage = (entries: IncomeEntry[]) => {
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(entries));
-  } catch (error) {
-    console.error("Error saving to localStorage:", error);
-  }
-};
-
-const loadFromLocalStorage = (): IncomeEntry[] => {
-  try {
-    const savedEntries = localStorage.getItem(STORAGE_KEY);
-    if (!savedEntries) return [];
-
-    return JSON.parse(savedEntries).map((entry: IncomeEntry) => ({
-      ...entry,
-      dates: entry.dates.map((date: Date) => dayjs(date).toDate()),
-    }));
-  } catch (error) {
-    console.error("Error loading from localStorage:", error);
-    return [];
-  }
-};
+import { IncomeCard } from "../components/income/IncomeCard";
+import { IncomeForm } from "../components/income/IncomeForm";
+import { TotalIncome } from "../components/income/TotalIncome";
+import { GRADIENTS } from "../constants";
+import { IncomeEntry, IncomeFormValues } from "../types";
+import {
+  loadFromLocalStorage,
+  saveToLocalStorage,
+  STORAGE_KEY,
+} from "../utils/storage";
 
 export function HomePage() {
   const [incomeEntries, setIncomeEntries] = useState<IncomeEntry[]>(() =>
@@ -81,14 +20,15 @@ export function HomePage() {
   const [editingEntry, setEditingEntry] = useState<IncomeEntry | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Обновим useEffect для сохранения
   useEffect(() => {
     if (incomeEntries.length > 0) {
       saveToLocalStorage(incomeEntries);
+    } else {
+      localStorage.removeItem(STORAGE_KEY);
     }
   }, [incomeEntries]);
 
-  const form = useForm({
+  const form = useForm<IncomeFormValues>({
     initialValues: {
       dailyAmount: 0,
       currency: "RUB",
@@ -102,7 +42,7 @@ export function HomePage() {
     },
   });
 
-  const handleSubmit = form.onSubmit((values) => {
+  const handleFormSubmit = form.onSubmit((values) => {
     if (selectedDates.length === 0) return;
 
     if (editingEntry) {
@@ -111,11 +51,8 @@ export function HomePage() {
           entry.id === editingEntry.id
             ? {
                 ...entry,
-                dailyAmount: values.dailyAmount,
-                currency: values.currency,
-                periodName: values.periodName,
+                ...values,
                 dates: selectedDates,
-                isPaid: values.isPaid,
               }
             : entry,
         ),
@@ -125,10 +62,7 @@ export function HomePage() {
       const newEntry: IncomeEntry = {
         id: crypto.randomUUID(),
         dates: selectedDates,
-        dailyAmount: values.dailyAmount,
-        currency: values.currency,
-        periodName: values.periodName,
-        isPaid: values.isPaid,
+        ...values,
       };
       setIncomeEntries([...incomeEntries, newEntry]);
     }
@@ -214,61 +148,13 @@ export function HomePage() {
         size="md"
         centered
       >
-        <form onSubmit={handleSubmit}>
-          <Stack>
-            <TextInput
-              label="Название периода"
-              placeholder="Например: Зарплата за январь"
-              {...form.getInputProps("periodName")}
-              radius="md"
-              size="md"
-            />
-
-            <DatePickerInput
-              type="multiple"
-              label="Выберите даты"
-              placeholder="Выберите одну или несколько дат"
-              value={selectedDates}
-              onChange={setSelectedDates}
-              clearable
-              radius="md"
-              size="md"
-            />
-
-            <NumberInput
-              label="Доход за день"
-              placeholder="Введите сумму за день"
-              {...form.getInputProps("dailyAmount")}
-              radius="md"
-              size="md"
-            />
-
-            <Select
-              label="Валюта"
-              data={CURRENCIES}
-              {...form.getInputProps("currency")}
-              radius="md"
-              size="md"
-            />
-
-            <Checkbox
-              label="Оплачено"
-              {...form.getInputProps("isPaid", { type: "checkbox" })}
-              size="md"
-            />
-
-            <Button
-              type="submit"
-              disabled={selectedDates.length === 0}
-              radius="md"
-              size="md"
-              gradient={GRADIENTS.income}
-              variant="gradient"
-            >
-              {editingEntry ? "Сохранить изменения" : "Добавить доход"}
-            </Button>
-          </Stack>
-        </form>
+        <IncomeForm
+          form={form}
+          selectedDates={selectedDates}
+          setSelectedDates={setSelectedDates}
+          isEditing={!!editingEntry}
+          onSubmit={handleFormSubmit}
+        />
       </Modal>
 
       {incomeEntries.length > 0 && (
@@ -278,83 +164,15 @@ export function HomePage() {
               История доходов:
             </Text>
             {incomeEntries.map((entry) => (
-              <Paper
+              <IncomeCard
                 key={entry.id}
-                shadow="sm"
-                p="md"
-                radius="md"
-                bg={`linear-gradient(${GRADIENTS.paper.deg}deg, ${GRADIENTS.paper.from}, ${GRADIENTS.paper.to})`}
-              >
-                <Stack gap="xs">
-                  <Group grow>
-                    <Group>
-                      <Checkbox
-                        checked={entry.isPaid}
-                        onChange={() => togglePaidStatus(entry.id)}
-                        label="Оплачено"
-                        size="md"
-                      />
-                      <Text fw={600}>{entry.periodName}</Text>
-                    </Group>
-                    <Group gap="xs" justify="flex-end">
-                      <ActionIcon
-                        onClick={() => handleEdit(entry)}
-                        color="blue"
-                        variant="light"
-                        radius="xl"
-                        size="lg"
-                      >
-                        <IconEdit size={18} />
-                      </ActionIcon>
-                      <ActionIcon
-                        onClick={() => handleDelete(entry.id)}
-                        color="red"
-                        variant="light"
-                        radius="xl"
-                        size="lg"
-                      >
-                        <IconTrash size={18} />
-                      </ActionIcon>
-                    </Group>
-                  </Group>
-                  <Text size="sm" c="dimmed">
-                    {entry.dates
-                      .map((date) => dayjs(date).format("DD.MM.YYYY"))
-                      .join(", ")}
-                  </Text>
-                  <Stack gap={2}>
-                    <Text fw={600} c={entry.isPaid ? "teal" : "dimmed"}>
-                      {entry.dailyAmount} {CURRENCY_SYMBOLS[entry.currency]} в
-                      день
-                    </Text>
-                    <Text size="sm" c="dimmed">
-                      Всего за период:{" "}
-                      <Text span fw={600} c={entry.isPaid ? "teal" : "dimmed"}>
-                        {entry.dailyAmount * entry.dates.length}{" "}
-                        {CURRENCY_SYMBOLS[entry.currency]}
-                      </Text>
-                    </Text>
-                  </Stack>
-                </Stack>
-              </Paper>
+                entry={entry}
+                onEdit={handleEdit}
+                onDelete={handleDelete}
+                onTogglePaid={togglePaidStatus}
+              />
             ))}
-            <Paper
-              shadow="sm"
-              p="md"
-              radius="md"
-              bg={`linear-gradient(${GRADIENTS.income.deg}deg, ${GRADIENTS.income.from}, ${GRADIENTS.income.to})`}
-            >
-              <Stack gap="xs">
-                <Text size="lg" fw={700} c="white">
-                  Общий доход:
-                </Text>
-                {Object.entries(totalsByCurrency).map(([currency, total]) => (
-                  <Text key={currency} fw={600} c="white" size="xl">
-                    {total} {CURRENCY_SYMBOLS[currency]}
-                  </Text>
-                ))}
-              </Stack>
-            </Paper>
+            <TotalIncome totalsByCurrency={totalsByCurrency} />
           </Stack>
         </Paper>
       )}
