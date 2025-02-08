@@ -1,25 +1,22 @@
 import { Group, Paper, Stack, Text } from "@mantine/core";
 import { CURRENCY_SYMBOLS, GLASS_EFFECT } from "../../constants";
-import { Income } from "../../types";
+import { Expense } from "../../types";
 
-interface TotalIncomeProps {
-  incomes: Income[];
+interface TotalExpenseProps {
+  expenses: Expense[];
 }
 
-export function TotalIncome({ incomes }: TotalIncomeProps) {
-  const totalsByCurrency = incomes
-    .filter((income) => income.isPaid)
-    .reduce((acc, income) => {
-      const totalAmount = income.dailyAmount * income.dates.length;
-      acc[income.currency] = (acc[income.currency] || 0) + totalAmount;
-      return acc;
-    }, {} as Record<string, number>);
+export function TotalExpense({ expenses }: TotalExpenseProps) {
+  const totalsByCurrency = expenses.reduce((acc, expense) => {
+    acc[expense.currency] = (acc[expense.currency] || 0) + expense.amount;
+    return acc;
+  }, {} as Record<string, number>);
 
   return (
-    <Paper p="lg" radius="xl" bg="green" style={GLASS_EFFECT}>
+    <Paper p="lg" radius="xl" bg="red" style={GLASS_EFFECT}>
       <Stack gap="md">
         <Text size="xl" fw={800} c="white">
-          Общий доход
+          Общие расходы
         </Text>
         {Object.entries(totalsByCurrency).map(([currency, total]) => (
           <Group key={currency} justify="space-between" align="center">
@@ -33,7 +30,7 @@ export function TotalIncome({ incomes }: TotalIncomeProps) {
         ))}
         {Object.keys(totalsByCurrency).length === 0 && (
           <Text c="white" ta="center">
-            Нет оплаченных доходов
+            Нет расходов
           </Text>
         )}
       </Stack>

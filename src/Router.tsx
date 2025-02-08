@@ -3,6 +3,7 @@ import { Layout } from "./components/Layout";
 import { useAuth } from "./contexts/AuthContext";
 import { AuthPage } from "./pages/Auth.page";
 import { EmailConfirmationPage } from "./pages/EmailConfirmation.page";
+import { ExpensePage } from "./pages/Expense.page";
 import { HomePage } from "./pages/Home.page";
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
@@ -35,8 +36,16 @@ export function AppRouter() {
             </ProtectedRoute>
           }
         />
-        <Route path="auth" element={<AuthPage />} />
-        <Route path="confirm-email" element={<EmailConfirmationPage />} />
+        <Route
+          path="/expenses"
+          element={
+            <ProtectedRoute>
+              <ExpensePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route path="/auth" element={<AuthPage />} />
+        <Route path="/confirm-email" element={<EmailConfirmationPage />} />
       </Routes>
     </BrowserRouter>
   );

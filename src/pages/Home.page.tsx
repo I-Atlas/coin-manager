@@ -182,20 +182,20 @@ export function HomePage() {
         </Group>
 
         {loadingIncomes ? (
-          <Paper p="xl" radius="xl" style={{ ...GLASS_EFFECT }}>
+          <Paper p="lg" radius="xl" style={{ ...GLASS_EFFECT }}>
             <Stack align="center">
               <Loader />
               <Text>Загрузка доходов...</Text>
             </Stack>
           </Paper>
         ) : incomes.length === 0 ? (
-          <Paper p="xl" radius="xl" style={{ ...GLASS_EFFECT }}>
+          <Paper p="lg" radius="xl" style={{ ...GLASS_EFFECT }}>
             <Text ta="center">У вас пока нет доходов. Добавьте первый!</Text>
           </Paper>
         ) : (
-          <Paper p="xl" radius="xl" style={{ ...GLASS_EFFECT }}>
+          <Paper p="lg" radius="xl" style={{ ...GLASS_EFFECT }}>
             <Stack gap="lg">
-              <Text size="xl" fw={800} ta="center" c="white">
+              <Text size="xl" fw={800} c="white">
                 История доходов
               </Text>
               {incomes.map((entry) => (

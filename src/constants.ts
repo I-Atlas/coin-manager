@@ -12,7 +12,7 @@ export const CURRENCY_SYMBOLS: Record<string, string> = {
 
 export const GLASS_EFFECT = {
   background: "rgba(255, 255, 255, 0.1)",
-  backdropFilter: "blur(16px)",
+  backdropFilter: "blur(20px)",
   border: "1px solid rgba(255, 255, 255, 0.2)",
   transition: "all 0.2s ease",
 };
