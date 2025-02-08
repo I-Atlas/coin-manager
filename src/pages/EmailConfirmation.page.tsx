@@ -1,6 +1,6 @@
 import { Container, Paper, Text, Title } from "@mantine/core";
 import { Navigate } from "react-router";
-import { useAuth } from "../contexts/AuthContext";
+import { useAuth } from "../contexts";
 
 export function EmailConfirmationPage() {
   const { user } = useAuth();

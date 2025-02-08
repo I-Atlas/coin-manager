@@ -1,7 +1,7 @@
 export const CURRENCIES = [
-  { value: "RUB", label: "Рубли" },
-  { value: "USD", label: "Доллары" },
-  { value: "EUR", label: "Евро" },
+  { value: "RUB", label: "₽ Рубли" },
+  { value: "USD", label: "$ Доллары" },
+  { value: "EUR", label: "€ Евро" },
 ];
 
 export const CURRENCY_SYMBOLS: Record<string, string> = {

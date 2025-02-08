@@ -1,5 +1,5 @@
-import { supabase } from "../lib/supabase";
-import { CreateIncomeDTO, Income, UpdateIncomeDTO } from "../types/income";
+import { supabase } from "../lib";
+import { CreateIncomeDTO, Income, UpdateIncomeDTO } from "../types";
 
 const TABLE_NAME = "incomes";
 
@@ -11,7 +11,7 @@ interface UpdateData {
   is_paid?: boolean;
 }
 
-export const incomeService = {
+class IncomeService {
   async getAll(): Promise<Income[]> {
     const { data, error } = await supabase
       .from(TABLE_NAME)
@@ -25,7 +25,7 @@ export const incomeService = {
       dailyAmount: item.daily_amount,
       isPaid: item.is_paid,
     }));
-  },
+  }
 
   async getById(id: string): Promise<Income | null> {
     const { data, error } = await supabase
@@ -43,7 +43,7 @@ export const incomeService = {
       dailyAmount: data.daily_amount,
       isPaid: data.is_paid,
     };
-  },
+  }
 
   async create(income: CreateIncomeDTO): Promise<Income> {
     const {
@@ -73,7 +73,7 @@ export const incomeService = {
       dailyAmount: data.daily_amount,
       isPaid: data.is_paid,
     };
-  },
+  }
 
   async update(id: string, income: UpdateIncomeDTO): Promise<Income> {
     const updateData: UpdateData = {};
@@ -99,12 +99,12 @@ export const incomeService = {
       dailyAmount: data.daily_amount,
       isPaid: data.is_paid,
     };
-  },
+  }
 
   async delete(id: string): Promise<void> {
     const { error } = await supabase.from(TABLE_NAME).delete().eq("id", id);
     if (error) throw error;
-  },
+  }
 
   async togglePaid(id: string): Promise<Income> {
     const { data, error } = await supabase
@@ -117,7 +117,7 @@ export const incomeService = {
     if (!data) throw new Error("Доход не найден");
 
     return this.update(id, { isPaid: !data.is_paid });
-  },
+  }
 
   async getTotalsByPaidStatus(): Promise<Record<string, number>> {
     const { data, error } = await supabase
@@ -132,5 +132,7 @@ export const incomeService = {
       acc[income.currency] = (acc[income.currency] || 0) + totalAmount;
       return acc;
     }, {} as Record<string, number>);
-  },
-};
+  }
+}
+
+export const incomeService = new IncomeService();

@@ -1,6 +1,6 @@
 import { Group, Paper, Stack, Text } from "@mantine/core";
 import { CURRENCY_SYMBOLS, GLASS_EFFECT } from "../../constants";
-import { Income } from "../../types/income";
+import { Income } from "../../types";
 
 interface TotalIncomeProps {
   incomes: Income[];
@@ -24,7 +24,7 @@ export function TotalIncome({ incomes }: TotalIncomeProps) {
         {Object.entries(totalsByCurrency).map(([currency, total]) => (
           <Paper key={currency} p="md" radius="md" style={GLASS_EFFECT}>
             <Group justify="space-between" align="center">
-              <Text fw={700} size="lg" c="white">
+              <Text fw={800} size="lg" c="white">
                 {currency}:
               </Text>
               <Text fw={800} size="xl" c="white">

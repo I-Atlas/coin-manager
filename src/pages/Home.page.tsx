@@ -10,12 +10,10 @@ import {
 import { useForm } from "@mantine/form";
 import { notifications } from "@mantine/notifications";
 import { useEffect, useState } from "react";
-import { IncomeCard } from "../components/income/IncomeCard";
-import { IncomeForm } from "../components/income/IncomeForm";
-import { TotalIncome } from "../components/income/TotalIncome";
+import { IncomeCard, IncomeForm, TotalIncome } from "../components/income";
 import { GLASS_EFFECT } from "../constants";
-import { incomeService } from "../services/income.service";
-import { Income, IncomeFormValues } from "../types/income";
+import { incomeService } from "../services";
+import { Income, IncomeFormValues } from "../types";
 
 export function HomePage() {
   const [incomes, setIncomes] = useState<Income[]>([]);
@@ -176,7 +174,7 @@ export function HomePage() {
         <Paper p="xl" radius="xl" style={GLASS_EFFECT}>
           <Stack align="center" gap="md">
             <Loader color="blue" size="xl" type="bars" />
-            <Text size="xl" fw={700} ta="center" c="white">
+            <Text size="xl" fw={800} ta="center" c="white">
               Загрузка данных...
             </Text>
           </Stack>
@@ -190,7 +188,7 @@ export function HomePage() {
       <Paper p="xl" mb="xl" radius="xl" style={GLASS_EFFECT}>
         <Stack gap="lg">
           <Text
-            size="2rem"
+            size="xl"
             fw={800}
             ta="center"
             c="white"
@@ -226,7 +224,7 @@ export function HomePage() {
           }
         }}
         title={
-          <Text size="xl" fw={700} mb="md">
+          <Text size="xl" fw={800} mb="md">
             {editingEntry ? "Редактировать период" : "Новый период"}
           </Text>
         }

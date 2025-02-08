@@ -1,8 +1,16 @@
-import { ActionIcon, Badge, Group, Paper, Stack, Text } from "@mantine/core";
-import { IconEdit, IconTrash } from "@tabler/icons-react";
+import {
+  ActionIcon,
+  Badge,
+  Button,
+  Group,
+  Paper,
+  Stack,
+  Text,
+} from "@mantine/core";
+import { EditIcon, TrashIcon } from "../../assets";
 import { CURRENCY_SYMBOLS, GLASS_EFFECT } from "../../constants";
-import { Income } from "../../types/income";
-import { formatDate } from "../../utils/date";
+import { Income } from "../../types";
+import { formatDate } from "../../utils";
 
 interface IncomeCardProps {
   entry: Income;
@@ -36,7 +44,7 @@ export function IncomeCard({
       <Stack gap="xs">
         <Group justify="space-between" align="start">
           <div>
-            <Text size="xl" fw={700} c="white">
+            <Text size="xl" fw={800} c="white">
               {entry.periodName}
             </Text>
             <Text size="sm" c="white" opacity={0.8}>
@@ -45,15 +53,17 @@ export function IncomeCard({
           </div>
           <Group gap="xs">
             <ActionIcon
+              radius="xl"
               variant="subtle"
               color="gray"
               onClick={() => onEdit(entry)}
               title="Редактировать"
               disabled={isDeleting || isTogglingPaid}
             >
-              <IconEdit size={18} />
+              <EditIcon size={18} />
             </ActionIcon>
             <ActionIcon
+              radius="xl"
               variant="subtle"
               color="red"
               onClick={() => onDelete(entry.id)}
@@ -61,7 +71,7 @@ export function IncomeCard({
               loading={isDeleting}
               disabled={isTogglingPaid}
             >
-              <IconTrash size={18} />
+              <TrashIcon size={18} />
             </ActionIcon>
           </Group>
         </Group>
@@ -71,7 +81,7 @@ export function IncomeCard({
             <Badge
               key={date}
               size="lg"
-              radius="sm"
+              radius="xl"
               variant="light"
               color={entry.isPaid ? "green" : "gray"}
             >
@@ -81,21 +91,15 @@ export function IncomeCard({
         </Group>
 
         <Group justify="space-between" align="center" mt="xs">
-          <Badge
-            size="xl"
+          <Button
             radius="xl"
             variant="filled"
             color={entry.isPaid ? "green" : "gray"}
-            style={{ cursor: isTogglingPaid ? "default" : "pointer" }}
             onClick={() => !isTogglingPaid && onTogglePaid(entry.id)}
-            className={isTogglingPaid ? "loading" : ""}
+            loading={isTogglingPaid}
           >
-            {isTogglingPaid
-              ? "Обновление..."
-              : entry.isPaid
-              ? "Оплачено"
-              : "Не оплачено"}
-          </Badge>
+            {entry.isPaid ? "Оплачено" : "Не оплачено"}
+          </Button>
           <Text size="xl" fw={800} c="white">
             {totalAmount} {CURRENCY_SYMBOLS[entry.currency]}
           </Text>

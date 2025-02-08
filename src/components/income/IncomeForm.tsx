@@ -9,7 +9,7 @@ import {
 import { DatePickerInput } from "@mantine/dates";
 import { UseFormReturnType } from "@mantine/form";
 import { CURRENCIES } from "../../constants";
-import { IncomeFormValues } from "../../types/income";
+import { IncomeFormValues } from "../../types";
 
 interface IncomeFormProps {
   form: UseFormReturnType<IncomeFormValues>;
@@ -91,8 +91,6 @@ export function IncomeForm({
             ...inputStyles,
             dropdown: {
               borderRadius: "1rem",
-              border: "1px solid rgba(255, 255, 255, 0.2)",
-              background: "rgba(255, 255, 255, 0.95)",
             },
           }}
           disabled={submitting}
@@ -121,7 +119,7 @@ export function IncomeForm({
 
         <Button
           type="submit"
-          disabled={selectedDates.length === 0 || submitting}
+          disabled={selectedDates.length === 0 || form.isDirty()}
           loading={submitting}
           radius="xl"
           size="md"

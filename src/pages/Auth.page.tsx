@@ -11,7 +11,7 @@ import {
 import { notifications } from "@mantine/notifications";
 import { useState } from "react";
 import { useNavigate } from "react-router";
-import { useAuth } from "../contexts/AuthContext";
+import { useAuth } from "../contexts";
 
 export function AuthPage() {
   const [isLogin, setIsLogin] = useState(true);
@@ -79,7 +79,7 @@ export function AuthPage() {
 
         <Text ta="center" mt="md">
           {isLogin ? "Нет аккаунта? " : "Уже есть аккаунт? "}
-          <Anchor onClick={() => setIsLogin(!isLogin)} fw={700}>
+          <Anchor onClick={() => setIsLogin(!isLogin)} fw={800}>
             {isLogin ? "Создать аккаунт" : "Войти"}
           </Anchor>
         </Text>
