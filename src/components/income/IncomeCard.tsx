@@ -34,7 +34,7 @@ export function IncomeCard({
   return (
     <Paper
       p="lg"
-      radius="lg"
+      radius="xl"
       style={{
         ...GLASS_EFFECT,
         opacity: entry.isPaid ? 1 : 0.7,

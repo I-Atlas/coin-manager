@@ -1,4 +1,5 @@
-import { Navigate, Route, BrowserRouter as Router, Routes } from "react-router";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router";
+import { Layout } from "./components/Layout";
 import { useAuth } from "./contexts/AuthContext";
 import { AuthPage } from "./pages/Auth.page";
 import { EmailConfirmationPage } from "./pages/EmailConfirmation.page";
@@ -19,12 +20,12 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
     return <Navigate to="/confirm-email" />;
   }
 
-  return <>{children}</>;
+  return <Layout>{children}</Layout>;
 }
 
 export function AppRouter() {
   return (
-    <Router>
+    <BrowserRouter>
       <Routes>
         <Route
           path="/"
@@ -34,9 +35,9 @@ export function AppRouter() {
             </ProtectedRoute>
           }
         />
-        <Route path="/auth" element={<AuthPage />} />
-        <Route path="/confirm-email" element={<EmailConfirmationPage />} />
+        <Route path="auth" element={<AuthPage />} />
+        <Route path="confirm-email" element={<EmailConfirmationPage />} />
       </Routes>
-    </Router>
+    </BrowserRouter>
   );
 }

@@ -1,6 +1,7 @@
 import {
   Button,
   Container,
+  Group,
   Loader,
   Modal,
   Paper,
@@ -168,113 +169,74 @@ export function HomePage() {
     }
   };
 
-  if (loadingIncomes) {
-    return (
-      <Container size="sm" py="xl">
-        <Paper p="xl" radius="xl" style={GLASS_EFFECT}>
-          <Stack align="center" gap="md">
-            <Loader color="blue" size="xl" type="bars" />
-            <Text size="xl" fw={800} ta="center" c="white">
-              Загрузка данных...
-            </Text>
-          </Stack>
-        </Paper>
-      </Container>
-    );
-  }
-
   return (
-    <Container size="sm" py="xl">
-      <Paper p="xl" mb="xl" radius="xl" style={GLASS_EFFECT}>
-        <Stack gap="lg">
-          <Text
-            size="xl"
-            fw={800}
-            ta="center"
-            c="white"
-            style={{ textShadow: "0 2px 4px rgba(0,0,0,0.2)" }}
-          >
-            Учет доходов
+    <Container size="md" py="xl">
+      <Stack gap="xl">
+        <Group justify="space-between" align="center">
+          <Text size="xl" fw={800}>
+            Управление доходами
           </Text>
-
-          <Button
-            onClick={() => {
-              form.reset();
-              setSelectedDates([]);
-              setEditingEntry(null);
-              setIsModalOpen(true);
-            }}
-            radius="xl"
-            size="lg"
-            fullWidth
-          >
-            Добавить новый период
+          <Button radius="xl" onClick={() => setIsModalOpen(true)}>
+            Добавить доход
           </Button>
-        </Stack>
-      </Paper>
+        </Group>
+
+        {loadingIncomes ? (
+          <Paper p="xl" radius="xl" style={{ ...GLASS_EFFECT }}>
+            <Stack align="center">
+              <Loader />
+              <Text>Загрузка доходов...</Text>
+            </Stack>
+          </Paper>
+        ) : incomes.length === 0 ? (
+          <Paper p="xl" radius="xl" style={{ ...GLASS_EFFECT }}>
+            <Text ta="center">У вас пока нет доходов. Добавьте первый!</Text>
+          </Paper>
+        ) : (
+          <Paper p="xl" radius="xl" style={{ ...GLASS_EFFECT }}>
+            <Stack gap="lg">
+              <Text size="xl" fw={800} ta="center" c="white">
+                История доходов
+              </Text>
+              {incomes.map((entry) => (
+                <IncomeCard
+                  key={entry.id}
+                  entry={entry}
+                  onEdit={handleEdit}
+                  onDelete={handleDelete}
+                  onTogglePaid={handleTogglePaid}
+                  isDeleting={deletingId === entry.id}
+                  isTogglingPaid={togglingPaidId === entry.id}
+                />
+              ))}
+              <TotalIncome incomes={incomes} />
+            </Stack>
+          </Paper>
+        )}
+      </Stack>
 
       <Modal
         opened={isModalOpen}
         onClose={() => {
-          if (!submitting) {
-            setIsModalOpen(false);
-            setEditingEntry(null);
-            form.reset();
-            setSelectedDates([]);
-          }
+          setIsModalOpen(false);
+          form.reset();
+          setSelectedDates([]);
+          setEditingEntry(null);
         }}
-        title={
-          <Text size="xl" fw={800} mb="md">
-            {editingEntry ? "Редактировать период" : "Новый период"}
-          </Text>
-        }
-        radius="xl"
-        size="lg"
+        title={editingEntry ? "Редактировать доход" : "Добавить доход"}
         centered
-        overlayProps={{
-          blur: 8,
-          opacity: 0.55,
-        }}
-        closeOnClickOutside={!submitting}
-        closeOnEscape={!submitting}
+        size="lg"
+        radius="xl"
       >
         <IncomeForm
           form={form}
+          onSubmit={handleFormSubmit}
           selectedDates={selectedDates}
           setSelectedDates={setSelectedDates}
-          isEditing={!!editingEntry}
-          onSubmit={handleFormSubmit}
           submitting={submitting}
+          isEditing={!!editingEntry}
         />
       </Modal>
-
-      {incomes.length > 0 && (
-        <Paper
-          p="xl"
-          radius="xl"
-          style={{
-            ...GLASS_EFFECT,
-          }}
-        >
-          <Stack gap="lg">
-            <Text size="xl" fw={800} ta="center" c="white">
-              История доходов
-            </Text>
-            {incomes.map((entry) => (
-              <IncomeCard
-                key={entry.id}
-                entry={entry}
-                onEdit={handleEdit}
-                onDelete={handleDelete}
-                onTogglePaid={handleTogglePaid}
-                isDeleting={deletingId === entry.id}
-                isTogglingPaid={togglingPaidId === entry.id}
-              />
-            ))}
-            <TotalIncome incomes={incomes} />
-          </Stack>
-        </Paper>
-      )}
     </Container>
   );
 }
