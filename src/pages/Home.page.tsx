@@ -69,21 +69,28 @@ export function HomePage() {
     setSubmitting(true);
 
     try {
+      let updatedIncome: Income;
       if (editingEntry) {
-        await incomeService.update(editingEntry.id, {
+        updatedIncome = await incomeService.update(editingEntry.id, {
           ...values,
           dates: selectedDates.map((d) => d.toISOString()),
         });
+        setIncomes((prevIncomes) =>
+          prevIncomes.map((income) =>
+            income.id === editingEntry.id ? updatedIncome : income,
+          ),
+        );
         notifications.show({
           title: "Успех",
           message: "Доход успешно обновлен",
           color: "green",
         });
       } else {
-        await incomeService.create({
+        updatedIncome = await incomeService.create({
           ...values,
           dates: selectedDates.map((d) => d.toISOString()),
         });
+        setIncomes((prevIncomes) => [updatedIncome, ...prevIncomes]);
         notifications.show({
           title: "Успех",
           message: "Доход успешно добавлен",
@@ -95,7 +102,6 @@ export function HomePage() {
       setIsModalOpen(false);
       form.reset();
       setEditingEntry(null);
-      await loadIncomes();
     } catch (error) {
       notifications.show({
         title: "Ошибка",
@@ -123,12 +129,14 @@ export function HomePage() {
     setDeletingId(id);
     try {
       await incomeService.delete(id);
+      setIncomes((prevIncomes) =>
+        prevIncomes.filter((income) => income.id !== id),
+      );
       notifications.show({
         title: "Успех",
         message: "Доход успешно удален",
         color: "green",
       });
-      await loadIncomes();
     } catch (error) {
       notifications.show({
         title: "Ошибка",
@@ -144,8 +152,12 @@ export function HomePage() {
   const handleTogglePaid = async (id: string) => {
     setTogglingPaidId(id);
     try {
-      await incomeService.togglePaid(id);
-      await loadIncomes();
+      const updatedIncome = await incomeService.togglePaid(id);
+      setIncomes((prevIncomes) =>
+        prevIncomes.map((income) =>
+          income.id === id ? updatedIncome : income,
+        ),
+      );
     } catch (error) {
       notifications.show({
         title: "Ошибка",
