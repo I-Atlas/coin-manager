@@ -17,6 +17,7 @@ interface IncomeFormProps {
   setSelectedDates: (dates: Date[]) => void;
   isEditing: boolean;
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  submitting: boolean;
 }
 
 export function IncomeForm({
@@ -25,6 +26,7 @@ export function IncomeForm({
   setSelectedDates,
   isEditing,
   onSubmit,
+  submitting,
 }: IncomeFormProps) {
   const inputStyles = {
     input: {
@@ -51,6 +53,7 @@ export function IncomeForm({
           radius="lg"
           size="md"
           styles={inputStyles}
+          disabled={submitting}
         />
 
         <DatePickerInput
@@ -65,6 +68,7 @@ export function IncomeForm({
           styles={inputStyles}
           mx="auto"
           w="100%"
+          disabled={submitting}
         />
 
         <NumberInput
@@ -74,6 +78,7 @@ export function IncomeForm({
           radius="lg"
           size="md"
           styles={inputStyles}
+          disabled={submitting}
         />
 
         <Select
@@ -86,10 +91,9 @@ export function IncomeForm({
             ...inputStyles,
             dropdown: {
               borderRadius: "1rem",
-              border: "1px solid rgba(255, 255, 255, 0.2)",
-              background: "rgba(255, 255, 255, 0.95)",
             },
           }}
+          disabled={submitting}
         />
 
         <Checkbox
@@ -98,7 +102,7 @@ export function IncomeForm({
           size="md"
           styles={{
             input: {
-              cursor: "pointer",
+              cursor: submitting ? "default" : "pointer",
               "&:checked": {
                 background: "var(--mantine-color-green-6)",
                 borderColor: "transparent",
@@ -107,14 +111,16 @@ export function IncomeForm({
             label: {
               fontSize: "1rem",
               fontWeight: 600,
-              cursor: "pointer",
+              cursor: submitting ? "default" : "pointer",
             },
           }}
+          disabled={submitting}
         />
 
         <Button
           type="submit"
-          disabled={selectedDates.length === 0}
+          disabled={selectedDates.length === 0 || form.isDirty()}
+          loading={submitting}
           radius="xl"
           size="md"
           style={{
