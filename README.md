@@ -1,50 +1,78 @@
-# React + TypeScript + Vite
+# Coin Manager - Expense Tracking App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A web application for tracking income and expenses, built with React, TypeScript, and Vite. The app supports multiple currencies and provides a user-friendly interface for managing your financial records.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- 💰 Track income and expenses
+- 🌐 Multi-currency support
+- 🔐 Secure authentication with Supabase
+- 📊 Financial period management
+- 📱 Responsive design
+- 🎨 Clean and intuitive interface
 
-## Expanding the ESLint configuration
+## Screenshots
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+### Income Form
 
-- Configure the top-level `parserOptions` property like this:
+![Income Form](./examples/income-form.png)
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+### Expense Form
+
+![Expense Form](./examples/expense-form.png)
+
+### Incomes
+
+![Incomes](./examples/incomes.png)
+
+### Expenses
+
+![Expenses](./examples/expenses.png)
+
+## Tech Stack
+
+- React 19
+- TypeScript
+- Vite
+- Supabase (Authentication & Database)
+- Mantine UI
+
+## Getting Started
+
+1. Clone the repository
+
+```bash
+git clone <repository-url>
+cd coin-manager
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+2. Install dependencies
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+```bash
+bun install
 ```
+
+3. Set up environment variables
+
+```bash
+VITE_SUPABASE_URL=your_supabase_url
+VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+```
+
+4. Start the development server
+
+```bash
+bun run dev
+```
+
+## Building for Production
+
+To create a production build:
+
+```bash
+bun run build
+```
+
+## License
+
+This project is licensed under the GNU General Public License - see the LICENSE file for details.
