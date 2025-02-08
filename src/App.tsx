@@ -4,7 +4,8 @@ import "@mantine/notifications/styles.css";
 
 import { ColorSchemeScript, createTheme, MantineProvider } from "@mantine/core";
 import { DatesProvider } from "@mantine/dates";
-import { Router } from "./Router";
+import { AppRouter } from "./Router";
+import { AuthProvider } from "./contexts/AuthContext";
 
 const theme = createTheme({
   primaryColor: "oklch-blue",
@@ -33,9 +34,11 @@ export default function App() {
         forceColorScheme="dark"
         theme={theme}
       >
-        <DatesProvider settings={{ locale: "ru-RU" }}>
-          <Router />
-        </DatesProvider>
+        <AuthProvider>
+          <DatesProvider settings={{ locale: "ru-RU" }}>
+            <AppRouter />
+          </DatesProvider>
+        </AuthProvider>
       </MantineProvider>
     </>
   );
