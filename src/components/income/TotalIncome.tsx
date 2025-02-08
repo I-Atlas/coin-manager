@@ -1,5 +1,5 @@
 import { Group, Paper, Stack, Text } from "@mantine/core";
-import { CURRENCY_SYMBOLS, GLASS_EFFECT, GRADIENTS } from "../../constants";
+import { CURRENCY_SYMBOLS, GLASS_EFFECT } from "../../constants";
 
 interface TotalIncomeProps {
   totalsByCurrency: Record<string, number>;
@@ -7,15 +7,7 @@ interface TotalIncomeProps {
 
 export function TotalIncome({ totalsByCurrency }: TotalIncomeProps) {
   return (
-    <Paper
-      shadow="lg"
-      p="xl"
-      radius="lg"
-      style={{
-        ...GLASS_EFFECT,
-        background: `linear-gradient(${GRADIENTS.income.deg}deg, ${GRADIENTS.income.from}, ${GRADIENTS.income.to})`,
-      }}
-    >
+    <Paper p="xl" radius="lg" bg="green" style={GLASS_EFFECT}>
       <Stack gap="md">
         <Text size="xl" fw={800} c="white" ta="center">
           Общий доход
