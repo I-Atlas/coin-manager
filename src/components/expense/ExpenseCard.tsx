@@ -38,12 +38,12 @@ export function ExpenseCard({
   isDeleting,
 }: ExpenseCardProps) {
   return (
-    <Paper p="lg" radius="lg" style={GLASS_EFFECT}>
+    <Paper p="lg" radius="xl" style={GLASS_EFFECT}>
       <Stack gap="xs">
-        <Group justify="space-between" align="start">
-          <div>
-            <Group gap="xs">
-              <Text size="xl" fw={800} c="white">
+        <Group justify="space-between" align="start" wrap="nowrap">
+          <Stack gap="xs" style={{ flex: 1, minWidth: 0 }}>
+            <Group gap="xs" wrap="nowrap">
+              <Text size="xl" fw={800} c="white" truncate="end">
                 {expense.description}
               </Text>
               <Badge
@@ -58,7 +58,7 @@ export function ExpenseCard({
             <Text size="sm" c="white" opacity={0.8}>
               {formatDate(new Date(expense.date))}
             </Text>
-          </div>
+          </Stack>
           <Group gap="xs">
             <ActionIcon
               radius="xl"

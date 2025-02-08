@@ -53,12 +53,12 @@ export function ExpenseChart({ expenses }: ExpenseChartProps) {
           );
 
           return (
-            <Paper key={currency} p="xl" radius="lg" style={GLASS_EFFECT}>
-              <Stack gap="md" align="center">
+            <Paper key={currency} p="lg" radius="xl" style={GLASS_EFFECT}>
+              <Stack gap="md">
                 <Text size="xl" fw={800} c="white">
                   Расходы по категориям ({currency})
                 </Text>
-                <Group align="flex-start" wrap="nowrap">
+                <Group align="flex-start" wrap="wrap" justify="center" gap="xl">
                   <RingProgress
                     size={250}
                     thickness={30}

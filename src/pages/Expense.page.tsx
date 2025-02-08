@@ -153,34 +153,34 @@ export function ExpensePage() {
   };
 
   return (
-    <Container size="md" py="xl">
-      <Stack gap="xl">
+    <Container size="md" py={{ base: "md", md: "xl" }}>
+      <Stack gap="lg">
         <Group justify="space-between" align="center">
-          <Text size="xl" fw={800}>
+          <Text size="xl" fw={800} visibleFrom="xs">
             Управление расходами
           </Text>
           <Button radius="xl" onClick={() => setIsModalOpen(true)}>
-            Добавить расход
+            Добавить расходы
           </Button>
         </Group>
 
         {loadingExpenses ? (
-          <Paper p="xl" radius="xl" style={{ ...GLASS_EFFECT }}>
+          <Paper p="lg" radius="xl" style={GLASS_EFFECT}>
             <Stack align="center">
               <Loader />
               <Text>Загрузка расходов...</Text>
             </Stack>
           </Paper>
         ) : expenses.length === 0 ? (
-          <Paper p="xl" radius="xl" style={{ ...GLASS_EFFECT }}>
+          <Paper p="lg" radius="xl" style={GLASS_EFFECT}>
             <Text ta="center">У вас пока нет расходов. Добавьте первый!</Text>
           </Paper>
         ) : (
           <>
             <ExpenseChart expenses={expenses} />
-            <Paper p="xl" radius="xl" style={{ ...GLASS_EFFECT }}>
+            <Paper p="lg" radius="xl" style={GLASS_EFFECT}>
               <Stack gap="lg">
-                <Text size="xl" fw={800} ta="center" c="white">
+                <Text size="xl" fw={800} c="white">
                   История расходов
                 </Text>
                 {expenses.map((expense) => (
@@ -207,10 +207,11 @@ export function ExpensePage() {
           setSelectedDate(null);
           setEditingEntry(null);
         }}
-        title={editingEntry ? "Редактировать расход" : "Добавить расход"}
+        title={editingEntry ? "Редактировать расход" : "Добавить расходы"}
         centered
         size="lg"
         radius="xl"
+        fullScreen={false}
       >
         <ExpenseForm
           form={form}

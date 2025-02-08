@@ -106,7 +106,7 @@ export function ExpenseForm({
             fontWeight: 600,
           }}
         >
-          {isEditing ? "Сохранить изменения" : "Добавить расход"}
+          {isEditing ? "Сохранить изменения" : "Добавить расходы"}
         </Button>
       </Stack>
     </form>

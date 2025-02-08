@@ -38,6 +38,11 @@ export function Navbar() {
             justify="start"
             fullWidth
             size="md"
+            styles={{
+              inner: {
+                justifyContent: "flex-start",
+              },
+            }}
           >
             Доходы
           </Button>
@@ -48,6 +53,11 @@ export function Navbar() {
             justify="start"
             fullWidth
             size="md"
+            styles={{
+              inner: {
+                justifyContent: "flex-start",
+              },
+            }}
           >
             Расходы
           </Button>
@@ -56,12 +66,12 @@ export function Navbar() {
 
       <Stack gap="md">
         <Divider />
-        <Group>
+        <Group wrap="nowrap">
           <Avatar radius="xl" color="blue" variant="filled">
             {user.email?.[0].toUpperCase()}
           </Avatar>
-          <div style={{ flex: 1 }}>
-            <Text size="sm" fw={500}>
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <Text size="sm" fw={500} truncate="end">
               {user.email}
             </Text>
           </div>

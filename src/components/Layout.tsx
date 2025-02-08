@@ -14,12 +14,16 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
   return (
     <AppShell
-      navbar={{ width: 300, breakpoint: "sm", collapsed: { mobile: !opened } }}
-      header={{ height: 60 }}
-      padding="md"
+      header={{ height: { base: 60, md: 70 } }}
+      navbar={{
+        width: 300,
+        breakpoint: "sm",
+        collapsed: { mobile: !opened },
+      }}
+      padding={{ base: "md", md: "xl" }}
     >
       <AppShell.Header>
-        <Group h="100%" px="md" justify="space-between">
+        <Group h="100%" px={{ base: "xs", md: "md" }} justify="space-between">
           <Group gap="md">
             <LogoIcon size={32} />
             <Text size="lg" fw={700}>
@@ -31,7 +35,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         </Group>
       </AppShell.Header>
 
-      <AppShell.Navbar p="md">
+      <AppShell.Navbar py="md" px={{ base: "xs", md: "md" }}>
         <Navbar />
       </AppShell.Navbar>
 

@@ -13,22 +13,20 @@ export function TotalExpense({ expenses }: TotalExpenseProps) {
   }, {} as Record<string, number>);
 
   return (
-    <Paper p="xl" radius="lg" bg="red" style={GLASS_EFFECT}>
+    <Paper p="lg" radius="xl" bg="red" style={GLASS_EFFECT}>
       <Stack gap="md">
-        <Text size="xl" fw={800} c="white" ta="center">
-          Общий расход
+        <Text size="xl" fw={800} c="white">
+          Общие расходы
         </Text>
         {Object.entries(totalsByCurrency).map(([currency, total]) => (
-          <Paper key={currency} p="md" radius="md" style={GLASS_EFFECT}>
-            <Group justify="space-between" align="center">
-              <Text fw={800} size="lg" c="white">
-                {currency}:
-              </Text>
-              <Text fw={800} size="xl" c="white">
-                {total} {CURRENCY_SYMBOLS[currency]}
-              </Text>
-            </Group>
-          </Paper>
+          <Group key={currency} justify="space-between" align="center">
+            <Text fw={800} size="lg" c="white">
+              {currency}:
+            </Text>
+            <Text fw={800} size="xl" c="white">
+              {total} {CURRENCY_SYMBOLS[currency]}
+            </Text>
+          </Group>
         ))}
         {Object.keys(totalsByCurrency).length === 0 && (
           <Text c="white" ta="center">

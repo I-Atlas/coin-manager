@@ -3,7 +3,7 @@ import { Container, Paper, Text, Title } from "@mantine/core";
 export function EmailConfirmationPage() {
   return (
     <Container size={420} my={40}>
-      <Paper withBorder shadow="md" p="xl" radius="xl">
+      <Paper withBorder shadow="md" p="lg" radius="xl">
         <Title order={2} ta="center" mb="md">
           Подтвердите ваш email
         </Title>
