@@ -8,7 +8,7 @@ import {
 } from "@mantine/core";
 import { DatePickerInput } from "@mantine/dates";
 import { UseFormReturnType } from "@mantine/form";
-import { CURRENCIES } from "../../constants";
+import { CURRENCIES, INPUT_STYLES } from "../../constants";
 import { IncomeFormValues } from "../../types";
 
 interface IncomeFormProps {
@@ -28,21 +28,6 @@ export function IncomeForm({
   onSubmit,
   submitting,
 }: IncomeFormProps) {
-  const inputStyles = {
-    input: {
-      transition: "all 0.2s ease",
-      "&:focus": {
-        background: "white",
-        transform: "translateY(-2px)",
-      },
-    },
-    label: {
-      fontSize: "1rem",
-      fontWeight: 600,
-      marginBottom: "0.5rem",
-    },
-  };
-
   return (
     <form onSubmit={onSubmit}>
       <Stack gap="md">
@@ -50,9 +35,9 @@ export function IncomeForm({
           label="Название периода"
           placeholder="Например: Зарплата за январь"
           {...form.getInputProps("periodName")}
-          radius="lg"
+          radius="xl"
           size="md"
-          styles={inputStyles}
+          styles={INPUT_STYLES}
           disabled={submitting}
         />
 
@@ -63,9 +48,9 @@ export function IncomeForm({
           value={selectedDates}
           onChange={setSelectedDates}
           clearable
-          radius="lg"
+          radius="xl"
           size="md"
-          styles={inputStyles}
+          styles={INPUT_STYLES}
           mx="auto"
           w="100%"
           disabled={submitting}
@@ -75,9 +60,9 @@ export function IncomeForm({
           label="Доход за день"
           placeholder="Введите сумму за день"
           {...form.getInputProps("dailyAmount")}
-          radius="lg"
+          radius="xl"
           size="md"
-          styles={inputStyles}
+          styles={INPUT_STYLES}
           disabled={submitting}
         />
 
@@ -85,10 +70,10 @@ export function IncomeForm({
           label="Валюта"
           data={CURRENCIES}
           {...form.getInputProps("currency")}
-          radius="lg"
+          radius="xl"
           size="md"
           styles={{
-            ...inputStyles,
+            ...INPUT_STYLES,
             dropdown: {
               borderRadius: "1rem",
             },
@@ -119,7 +104,7 @@ export function IncomeForm({
 
         <Button
           type="submit"
-          disabled={selectedDates.length === 0 || form.isDirty()}
+          disabled={selectedDates.length === 0 || !form.isValid()}
           loading={submitting}
           radius="xl"
           size="md"

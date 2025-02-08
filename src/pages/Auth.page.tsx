@@ -11,6 +11,7 @@ import {
 import { notifications } from "@mantine/notifications";
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import { INPUT_STYLES } from "../constants";
 import { useAuth } from "../contexts";
 
 export function AuthPage() {
@@ -54,11 +55,13 @@ export function AuthPage() {
       <Title ta="center">
         {isLogin ? "Добро пожаловать!" : "Создайте аккаунт"}
       </Title>
-
-      <Paper withBorder shadow="md" p={30} mt={30} radius="md">
+      <Paper withBorder shadow="md" p={30} mt={30} radius="xl">
         <form onSubmit={handleSubmit}>
           <TextInput
             label="Email"
+            radius="xl"
+            size="md"
+            styles={INPUT_STYLES}
             placeholder="you@example.com"
             required
             value={email}
@@ -66,13 +69,16 @@ export function AuthPage() {
           />
           <PasswordInput
             label="Пароль"
+            radius="xl"
+            size="md"
+            styles={INPUT_STYLES}
             placeholder="Ваш пароль"
             required
             mt="md"
             value={password}
             onChange={(e) => setPassword(e.currentTarget.value)}
           />
-          <Button type="submit" fullWidth mt="xl" loading={loading}>
+          <Button radius="xl" type="submit" fullWidth mt="xl" loading={loading}>
             {isLogin ? "Войти" : "Зарегистрироваться"}
           </Button>
         </form>

@@ -16,13 +16,13 @@ export function TotalIncome({ incomes }: TotalIncomeProps) {
     }, {} as Record<string, number>);
 
   return (
-    <Paper p="xl" radius="lg" bg="green" style={GLASS_EFFECT}>
+    <Paper p="xl" radius="xl" bg="green" style={GLASS_EFFECT}>
       <Stack gap="md">
         <Text size="xl" fw={800} c="white" ta="center">
           Общий доход
         </Text>
         {Object.entries(totalsByCurrency).map(([currency, total]) => (
-          <Paper key={currency} p="md" radius="md" style={GLASS_EFFECT}>
+          <Paper key={currency} p="md" radius="xl" style={GLASS_EFFECT}>
             <Group justify="space-between" align="center">
               <Text fw={800} size="lg" c="white">
                 {currency}:
