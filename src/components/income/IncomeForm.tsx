@@ -1,89 +1,139 @@
-import { Button, Group, NumberInput, TextInput } from "@mantine/core";
-import { DateInput } from "@mantine/dates";
-import { notifications } from "@mantine/notifications";
-import { useState } from "react";
-import { incomeService } from "../../services/income.service";
-import { CreateIncomeDTO } from "../../types/income";
+import {
+  Button,
+  Checkbox,
+  NumberInput,
+  Select,
+  Stack,
+  TextInput,
+} from "@mantine/core";
+import { DatePickerInput } from "@mantine/dates";
+import { UseFormReturnType } from "@mantine/form";
+import { CURRENCIES } from "../../constants";
+import { IncomeFormValues } from "../../types/income";
 
 interface IncomeFormProps {
-  onSuccess?: () => void;
+  form: UseFormReturnType<IncomeFormValues>;
+  selectedDates: Date[];
+  setSelectedDates: (dates: Date[]) => void;
+  isEditing: boolean;
+  onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  submitting: boolean;
 }
 
-export function IncomeForm({ onSuccess }: IncomeFormProps) {
-  const [loading, setLoading] = useState(false);
-  const [formData, setFormData] = useState<CreateIncomeDTO>({
-    amount: 0,
-    description: "",
-    date: new Date().toISOString(),
-  });
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-
-    try {
-      await incomeService.create(formData);
-      notifications.show({
-        title: "Успех",
-        message: "Доход успешно добавлен",
-        color: "green",
-      });
-      setFormData({
-        amount: 0,
-        description: "",
-        date: new Date().toISOString(),
-      });
-      onSuccess?.();
-    } catch (error) {
-      notifications.show({
-        title: "Ошибка",
-        message: error instanceof Error ? error.message : "Что-то пошло не так",
-        color: "red",
-      });
-    } finally {
-      setLoading(false);
-    }
+export function IncomeForm({
+  form,
+  selectedDates,
+  setSelectedDates,
+  isEditing,
+  onSubmit,
+  submitting,
+}: IncomeFormProps) {
+  const inputStyles = {
+    input: {
+      transition: "all 0.2s ease",
+      "&:focus": {
+        background: "white",
+        transform: "translateY(-2px)",
+      },
+    },
+    label: {
+      fontSize: "1rem",
+      fontWeight: 600,
+      marginBottom: "0.5rem",
+    },
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <NumberInput
-        label="Сумма"
-        placeholder="Введите сумму"
-        required
-        value={formData.amount}
-        onChange={(value) =>
-          setFormData((prev) => ({ ...prev, amount: Number(value) || 0 }))
-        }
-      />
-      <TextInput
-        label="Описание"
-        placeholder="Введите описание"
-        required
-        value={formData.description}
-        onChange={(e) =>
-          setFormData((prev) => ({ ...prev, description: e.target.value }))
-        }
-        mt="md"
-      />
-      <DateInput
-        label="Дата"
-        placeholder="Выберите дату"
-        required
-        value={new Date(formData.date)}
-        onChange={(date) =>
-          setFormData((prev) => ({
-            ...prev,
-            date: date?.toISOString() || new Date().toISOString(),
-          }))
-        }
-        mt="md"
-      />
-      <Group justify="flex-end" mt="xl">
-        <Button type="submit" loading={loading}>
-          Добавить
+    <form onSubmit={onSubmit}>
+      <Stack gap="md">
+        <TextInput
+          label="Название периода"
+          placeholder="Например: Зарплата за январь"
+          {...form.getInputProps("periodName")}
+          radius="lg"
+          size="md"
+          styles={inputStyles}
+          disabled={submitting}
+        />
+
+        <DatePickerInput
+          type="multiple"
+          label="Выберите даты"
+          placeholder="Выберите одну или несколько дат"
+          value={selectedDates}
+          onChange={setSelectedDates}
+          clearable
+          radius="lg"
+          size="md"
+          styles={inputStyles}
+          mx="auto"
+          w="100%"
+          disabled={submitting}
+        />
+
+        <NumberInput
+          label="Доход за день"
+          placeholder="Введите сумму за день"
+          {...form.getInputProps("dailyAmount")}
+          radius="lg"
+          size="md"
+          styles={inputStyles}
+          disabled={submitting}
+        />
+
+        <Select
+          label="Валюта"
+          data={CURRENCIES}
+          {...form.getInputProps("currency")}
+          radius="lg"
+          size="md"
+          styles={{
+            ...inputStyles,
+            dropdown: {
+              borderRadius: "1rem",
+              border: "1px solid rgba(255, 255, 255, 0.2)",
+              background: "rgba(255, 255, 255, 0.95)",
+            },
+          }}
+          disabled={submitting}
+        />
+
+        <Checkbox
+          label="Оплачено"
+          {...form.getInputProps("isPaid", { type: "checkbox" })}
+          size="md"
+          styles={{
+            input: {
+              cursor: submitting ? "default" : "pointer",
+              "&:checked": {
+                background: "var(--mantine-color-green-6)",
+                borderColor: "transparent",
+              },
+            },
+            label: {
+              fontSize: "1rem",
+              fontWeight: 600,
+              cursor: submitting ? "default" : "pointer",
+            },
+          }}
+          disabled={submitting}
+        />
+
+        <Button
+          type="submit"
+          disabled={selectedDates.length === 0 || submitting}
+          loading={submitting}
+          radius="xl"
+          size="md"
+          style={{
+            height: "3rem",
+            fontSize: "1.1rem",
+            fontWeight: 600,
+          }}
+        >
+          {isEditing ? "Сохранить изменения" : "Добавить доход"}
         </Button>
-      </Group>
+      </Stack>
     </form>
   );
 }

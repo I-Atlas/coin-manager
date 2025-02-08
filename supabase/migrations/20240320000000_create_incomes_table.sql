@@ -1,9 +1,11 @@
 create table public.incomes (
   id uuid default gen_random_uuid() primary key,
   user_id uuid references auth.users not null,
-  amount numeric not null check (amount > 0),
-  description text not null,
-  date date not null,
+  period_name text not null,
+  daily_amount numeric not null check (daily_amount > 0),
+  currency text not null,
+  dates date[] not null,
+  is_paid boolean not null default false,
   created_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
 

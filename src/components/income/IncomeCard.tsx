@@ -1,14 +1,16 @@
-import { ActionIcon, Checkbox, Group, Paper, Stack, Text } from "@mantine/core";
+import { ActionIcon, Badge, Group, Paper, Stack, Text } from "@mantine/core";
 import { IconEdit, IconTrash } from "@tabler/icons-react";
-import dayjs from "dayjs";
 import { CURRENCY_SYMBOLS, GLASS_EFFECT } from "../../constants";
-import { IncomeEntry } from "../../types";
+import { Income } from "../../types/income";
+import { formatDate } from "../../utils/date";
 
 interface IncomeCardProps {
-  entry: IncomeEntry;
-  onEdit: (entry: IncomeEntry) => void;
+  entry: Income;
+  onEdit: (entry: Income) => void;
   onDelete: (id: string) => void;
   onTogglePaid: (id: string) => void;
+  isDeleting: boolean;
+  isTogglingPaid: boolean;
 }
 
 export function IncomeCard({
@@ -16,69 +18,88 @@ export function IncomeCard({
   onEdit,
   onDelete,
   onTogglePaid,
+  isDeleting,
+  isTogglingPaid,
 }: IncomeCardProps) {
+  const totalAmount = entry.dailyAmount * entry.dates.length;
+
   return (
     <Paper
-      p="md"
+      p="lg"
       radius="lg"
       style={{
         ...GLASS_EFFECT,
-        transition: "transform 0.2s ease, box-shadow 0.2s ease",
-        "&:hover": {
-          transform: "translateY(-2px)",
-        },
+        opacity: entry.isPaid ? 1 : 0.7,
+        transform: entry.isPaid ? "none" : "scale(0.98)",
       }}
     >
       <Stack gap="xs">
-        <Group grow>
-          <Group>
-            <Checkbox
-              checked={entry.isPaid}
-              onChange={() => onTogglePaid(entry.id)}
-              label={
-                <Text fw={400} c={entry.isPaid ? "green" : "red"}>
-                  {entry.isPaid ? "Оплачено" : "Не оплачено"}
-                </Text>
-              }
-              size="md"
-            />
-            <Text fw={400} size="lg" c="white">
+        <Group justify="space-between" align="start">
+          <div>
+            <Text size="xl" fw={700} c="white">
               {entry.periodName}
             </Text>
-          </Group>
-          <Group gap="xs" justify="flex-end">
-            <ActionIcon onClick={() => onEdit(entry)} radius="xl" size="lg">
+            <Text size="sm" c="white" opacity={0.8}>
+              {entry.dates.length} {entry.dates.length === 1 ? "день" : "дней"}
+            </Text>
+          </div>
+          <Group gap="xs">
+            <ActionIcon
+              variant="subtle"
+              color="gray"
+              onClick={() => onEdit(entry)}
+              title="Редактировать"
+              disabled={isDeleting || isTogglingPaid}
+            >
               <IconEdit size={18} />
             </ActionIcon>
             <ActionIcon
-              onClick={() => onDelete(entry.id)}
+              variant="subtle"
               color="red"
-              radius="xl"
-              size="lg"
+              onClick={() => onDelete(entry.id)}
+              title="Удалить"
+              loading={isDeleting}
+              disabled={isTogglingPaid}
             >
               <IconTrash size={18} />
             </ActionIcon>
           </Group>
         </Group>
-        <Text size="sm" c="white" fw={400}>
-          {entry.dates
-            .map((date) => dayjs(date).format("DD.MM.YYYY"))
-            .join(", ")}
-        </Text>
-        <Stack gap={2}>
-          <Text fw={700} c={entry.isPaid ? "green" : "red"}>
-            {entry.dailyAmount} {CURRENCY_SYMBOLS[entry.currency]} в день
+
+        <Group gap="xs" wrap="wrap">
+          {entry.dates.map((date) => (
+            <Badge
+              key={date}
+              size="lg"
+              radius="sm"
+              variant="light"
+              color={entry.isPaid ? "green" : "gray"}
+            >
+              {formatDate(new Date(date))}
+            </Badge>
+          ))}
+        </Group>
+
+        <Group justify="space-between" align="center" mt="xs">
+          <Badge
+            size="xl"
+            radius="xl"
+            variant="filled"
+            color={entry.isPaid ? "green" : "gray"}
+            style={{ cursor: isTogglingPaid ? "default" : "pointer" }}
+            onClick={() => !isTogglingPaid && onTogglePaid(entry.id)}
+            className={isTogglingPaid ? "loading" : ""}
+          >
+            {isTogglingPaid
+              ? "Обновление..."
+              : entry.isPaid
+              ? "Оплачено"
+              : "Не оплачено"}
+          </Badge>
+          <Text size="xl" fw={800} c="white">
+            {totalAmount} {CURRENCY_SYMBOLS[entry.currency]}
           </Text>
-          <Group justify="space-between" align="center">
-            <Text size="sm" fw={400} c="white">
-              Всего за период:
-            </Text>
-            <Text fw={700} c={entry.isPaid ? "green" : "red"}>
-              {entry.dailyAmount * entry.dates.length}{" "}
-              {CURRENCY_SYMBOLS[entry.currency]}
-            </Text>
-          </Group>
-        </Stack>
+        </Group>
       </Stack>
     </Paper>
   );

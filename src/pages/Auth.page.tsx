@@ -28,10 +28,16 @@ export function AuthPage() {
     try {
       if (isLogin) {
         await signIn(email, password);
+        navigate("/");
       } else {
         await signUp(email, password);
+        notifications.show({
+          title: "Успешная регистрация",
+          message: "Пожалуйста, подтвердите ваш email адрес",
+          color: "green",
+        });
+        navigate("/confirm-email");
       }
-      navigate("/");
     } catch (error) {
       notifications.show({
         title: "Ошибка",
