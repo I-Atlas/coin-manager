@@ -24,10 +24,10 @@ export function LogoIcon({ size = 24 }: IconProps) {
         height="270.301"
         rx="135.15"
         stroke="url(#paint1_angular_1_19)"
-        stroke-width="6.93708"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-dasharray="0.23 2.31"
+        strokeWidth="6.93708"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeDasharray="0.23 2.31"
       />
       <path
         d="M23.0563 138.857C23.0563 75.0029 74.8203 23.2389 138.674 23.2389C202.529 23.2389 254.292 75.0029 254.292 138.857C254.292 202.711 202.529 254.475 138.674 254.475C74.8203 254.475 23.0563 202.711 23.0563 138.857Z"
@@ -54,11 +54,11 @@ export function LogoIcon({ size = 24 }: IconProps) {
           gradientUnits="userSpaceOnUse"
           gradientTransform="translate(138.674 138.857) rotate(90) scale(138.619)"
         >
-          <stop stop-color="#BC903E" />
-          <stop offset="0.2" stop-color="#FFC559" />
-          <stop offset="0.4" stop-color="#A26900" />
-          <stop offset="0.6" stop-color="#D9BC72" />
-          <stop offset="0.8" stop-color="#BC903E" />
+          <stop stopColor="#BC903E" />
+          <stop offset="0.2" stopColor="#FFC559" />
+          <stop offset="0.4" stopColor="#A26900" />
+          <stop offset="0.6" stopColor="#D9BC72" />
+          <stop offset="0.8" stopColor="#BC903E" />
         </radialGradient>
         <radialGradient
           id="paint1_angular_1_19"
@@ -68,12 +68,12 @@ export function LogoIcon({ size = 24 }: IconProps) {
           gradientUnits="userSpaceOnUse"
           gradientTransform="translate(138.674 138.857) rotate(90) scale(138.619)"
         >
-          <stop stop-color="#C19048" />
-          <stop offset="0.2" stop-color="#DDBC79" />
-          <stop offset="0.4" stop-color="#DDBC79" />
-          <stop offset="0.6" stop-color="#A7691B" />
-          <stop offset="0.8" stop-color="#FFC666" />
-          <stop offset="1" stop-color="#C19048" />
+          <stop stopColor="#C19048" />
+          <stop offset="0.2" stopColor="#DDBC79" />
+          <stop offset="0.4" stopColor="#DDBC79" />
+          <stop offset="0.6" stopColor="#A7691B" />
+          <stop offset="0.8" stopColor="#FFC666" />
+          <stop offset="1" stopColor="#C19048" />
         </radialGradient>
         <radialGradient
           id="paint2_angular_1_19"
@@ -83,11 +83,11 @@ export function LogoIcon({ size = 24 }: IconProps) {
           gradientUnits="userSpaceOnUse"
           gradientTransform="translate(138.674 138.857) rotate(90) scale(115.618)"
         >
-          <stop offset="0.2" stop-color="#BC903E" />
-          <stop offset="0.4" stop-color="#D9BC72" />
-          <stop offset="0.6" stop-color="#A26900" />
-          <stop offset="0.8" stop-color="#FFC559" />
-          <stop offset="1" stop-color="#BC903E" />
+          <stop offset="0.2" stopColor="#BC903E" />
+          <stop offset="0.4" stopColor="#D9BC72" />
+          <stop offset="0.6" stopColor="#A26900" />
+          <stop offset="0.8" stopColor="#FFC559" />
+          <stop offset="1" stopColor="#BC903E" />
         </radialGradient>
         <radialGradient
           id="paint3_angular_1_19"
@@ -97,12 +97,12 @@ export function LogoIcon({ size = 24 }: IconProps) {
           gradientUnits="userSpaceOnUse"
           gradientTransform="translate(138.674 138.857) rotate(90) scale(60 104.056)"
         >
-          <stop stop-color="#C19048" />
-          <stop offset="0.2" stop-color="#DDBC79" />
-          <stop offset="0.4" stop-color="#DDBC79" />
-          <stop offset="0.6" stop-color="#A7691B" />
-          <stop offset="0.8" stop-color="#FFC666" />
-          <stop offset="1" stop-color="#C19048" />
+          <stop stopColor="#C19048" />
+          <stop offset="0.2" stopColor="#DDBC79" />
+          <stop offset="0.4" stopColor="#DDBC79" />
+          <stop offset="0.6" stopColor="#A7691B" />
+          <stop offset="0.8" stopColor="#FFC666" />
+          <stop offset="1" stopColor="#C19048" />
         </radialGradient>
       </defs>
     </svg>

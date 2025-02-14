@@ -39,7 +39,7 @@ export function ExpenseChart({ expenses }: ExpenseChartProps) {
   return (
     <Stack gap="lg">
       {Object.entries(totalsByCategoryAndCurrency).map(
-        ([currency, categories]) => {
+        ([currency, categories], index) => {
           const total = Object.values(categories).reduce(
             (sum, amount) => sum + amount,
             0,
@@ -53,7 +53,7 @@ export function ExpenseChart({ expenses }: ExpenseChartProps) {
           );
 
           return (
-            <Paper key={currency} p="lg" radius="xl" style={GLASS_EFFECT}>
+            <Paper key={index} p="lg" radius="xl" style={GLASS_EFFECT}>
               <Stack gap="md">
                 <Text size="xl" fw={800} c="white">
                   Расходы по категориям ({currency})
@@ -76,8 +76,8 @@ export function ExpenseChart({ expenses }: ExpenseChartProps) {
                   <Stack gap="xs">
                     {Object.entries(categories)
                       .sort(([, a], [, b]) => b - a)
-                      .map(([category, amount]) => (
-                        <Group key={category} gap="xs">
+                      .map(([category, amount], index) => (
+                        <Group key={index} gap="xs">
                           <Paper
                             w={12}
                             h={12}

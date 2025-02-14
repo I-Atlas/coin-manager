@@ -1,6 +1,5 @@
 import {
   Button,
-  Container,
   Group,
   Loader,
   Modal,
@@ -170,7 +169,7 @@ export function HomePage() {
   };
 
   return (
-    <Container size="md" py="xl">
+    <>
       <Stack gap="xl">
         <Group justify="space-between" align="center">
           <Text size="xl" fw={800}>
@@ -193,25 +192,23 @@ export function HomePage() {
             <Text ta="center">У вас пока нет доходов. Добавьте первый!</Text>
           </Paper>
         ) : (
-          <Paper p="lg" radius="xl" style={{ ...GLASS_EFFECT }}>
-            <Stack gap="lg">
-              <Text size="xl" fw={800} c="white">
-                История доходов
-              </Text>
-              {incomes.map((entry) => (
-                <IncomeCard
-                  key={entry.id}
-                  entry={entry}
-                  onEdit={handleEdit}
-                  onDelete={handleDelete}
-                  onTogglePaid={handleTogglePaid}
-                  isDeleting={deletingId === entry.id}
-                  isTogglingPaid={togglingPaidId === entry.id}
-                />
-              ))}
-              <TotalIncome incomes={incomes} />
-            </Stack>
-          </Paper>
+          <Stack gap="lg">
+            <Text size="xl" fw={800} c="white">
+              История доходов
+            </Text>
+            {incomes.map((entry, index) => (
+              <IncomeCard
+                key={index}
+                entry={entry}
+                onEdit={handleEdit}
+                onDelete={handleDelete}
+                onTogglePaid={handleTogglePaid}
+                isDeleting={deletingId === entry.id}
+                isTogglingPaid={togglingPaidId === entry.id}
+              />
+            ))}
+            <TotalIncome incomes={incomes} />
+          </Stack>
         )}
       </Stack>
 
@@ -237,6 +234,6 @@ export function HomePage() {
           isEditing={!!editingEntry}
         />
       </Modal>
-    </Container>
+    </>
   );
 }

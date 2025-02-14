@@ -1,6 +1,5 @@
 import {
   Button,
-  Container,
   Group,
   Loader,
   Modal,
@@ -153,7 +152,7 @@ export function ExpensePage() {
   };
 
   return (
-    <Container size="md" py={{ base: "md", md: "xl" }}>
+    <>
       <Stack gap="lg">
         <Group justify="space-between" align="center">
           <Text size="xl" fw={800} visibleFrom="xs">
@@ -178,23 +177,21 @@ export function ExpensePage() {
         ) : (
           <>
             <ExpenseChart expenses={expenses} />
-            <Paper p="lg" radius="xl" style={GLASS_EFFECT}>
-              <Stack gap="lg">
-                <Text size="xl" fw={800} c="white">
-                  История расходов
-                </Text>
-                {expenses.map((expense) => (
-                  <ExpenseCard
-                    key={expense.id}
-                    expense={expense}
-                    onEdit={handleEdit}
-                    onDelete={handleDelete}
-                    isDeleting={deletingId === expense.id}
-                  />
-                ))}
-                <TotalExpense expenses={expenses} />
-              </Stack>
-            </Paper>
+            <Stack gap="lg">
+              <Text size="xl" fw={800} c="white">
+                История расходов
+              </Text>
+              {expenses.map((expense, index) => (
+                <ExpenseCard
+                  key={index}
+                  expense={expense}
+                  onEdit={handleEdit}
+                  onDelete={handleDelete}
+                  isDeleting={deletingId === expense.id}
+                />
+              ))}
+              <TotalExpense expenses={expenses} />
+            </Stack>
           </>
         )}
       </Stack>
@@ -222,6 +219,6 @@ export function ExpensePage() {
           isEditing={!!editingEntry}
         />
       </Modal>
-    </Container>
+    </>
   );
 }

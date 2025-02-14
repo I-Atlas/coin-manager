@@ -1,12 +1,19 @@
 import { AppShell, Burger, Group, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
+import { useEffect } from "react";
+import { useLocation } from "react-router";
 import { LogoIcon } from "../assets/LogoIcon";
 import { useAuth } from "../contexts";
 import { Navbar } from "./Navbar";
 
 export function Layout({ children }: { children: React.ReactNode }) {
-  const [opened, { toggle }] = useDisclosure();
+  const [opened, { toggle, close }] = useDisclosure();
   const { user } = useAuth();
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    close();
+  }, [pathname]);
 
   if (!user) {
     return <>{children}</>;

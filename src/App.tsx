@@ -4,7 +4,6 @@ import "@mantine/dates/styles.css";
 import "@mantine/notifications/styles.css";
 
 import { ColorSchemeScript, createTheme, MantineProvider } from "@mantine/core";
-import { DatesProvider } from "@mantine/dates";
 import { Notifications } from "@mantine/notifications";
 import { AppRouter } from "./Router";
 import { AuthProvider } from "./contexts/AuthContext";
@@ -38,9 +37,7 @@ export default function App() {
       >
         <Notifications />
         <AuthProvider>
-          <DatesProvider settings={{ locale: "ru-RU" }}>
-            <AppRouter />
-          </DatesProvider>
+          <AppRouter />
         </AuthProvider>
       </MantineProvider>
     </>

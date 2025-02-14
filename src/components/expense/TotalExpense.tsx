@@ -18,8 +18,8 @@ export function TotalExpense({ expenses }: TotalExpenseProps) {
         <Text size="xl" fw={800} c="white">
           Общие расходы
         </Text>
-        {Object.entries(totalsByCurrency).map(([currency, total]) => (
-          <Group key={currency} justify="space-between" align="center">
+        {Object.entries(totalsByCurrency).map(([currency, total], index) => (
+          <Group key={index} justify="space-between" align="center">
             <Text fw={800} size="lg" c="white">
               {currency}:
             </Text>

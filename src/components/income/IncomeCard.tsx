@@ -77,9 +77,9 @@ export function IncomeCard({
         </Group>
 
         <Group gap="xs" wrap="wrap">
-          {entry.dates.map((date) => (
+          {entry.dates.map((date, index) => (
             <Badge
-              key={date}
+              key={index}
               size="lg"
               radius="xl"
               variant="light"
